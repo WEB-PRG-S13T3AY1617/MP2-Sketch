@@ -1,0 +1,44 @@
+{% load static %}
+{% load filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Beginnings Marketplace - Registration</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/basic.css' %}">
+</head>
+<body>
+    <div id="navigation">
+        <nav>
+            <a href="{% url 'index' %}#newsFeed" id="postsLink">Posts</a>
+            {% if logged %}
+                <a href="{% url 'sell' %}">Post An Item</a>
+                <a href="{% url 'profile' %}">View Profile</a>
+            {% else %}
+                <a href="{% url 'login' %}">Log In</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </nav>
+    </div>
+
+    <div id="newsFeed">
+        <form action="/account/register/do/" method="POST" enctype="multipart/form-data" class="accountForm">
+            <div class="title">Registration: </div>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Register">
+            {% if errors %}
+                <div class="errors">
+                    {% for error in errors %}
+                        <div><b>Error:</b> {{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </form>
+    </div>
+
+</body>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</html>

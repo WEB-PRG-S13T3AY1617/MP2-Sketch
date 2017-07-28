@@ -1,0 +1,40 @@
+{% load static %}
+{% load filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Beginnings Marketplace - Posting</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/basic.css' %}">
+</head>
+<body>
+    <div id="navigation">
+        <nav>
+            <a href="{% url 'index' %}#newsFeed" id="postsLink">Posts</a>
+            <a href="{% url 'sell' %}">Post An Item</a>
+            <a href="{% url 'profile' %}">View Profile</a>
+            <a href="{% url 'logout' %}">Log Out</a>
+        </nav>
+    </div>
+
+    <div id="newsFeed">
+        <form action="/post/sell/do/" method="POST" enctype="multipart/form-data" class="accountForm">
+            <div class="title">Post Item: </div>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Post">
+            {% if errors %}
+                <div class="errors">
+                    {% for error in errors %}
+                        <div><b>Error:</b> {{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </form>
+    </div>
+
+</body>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</html>

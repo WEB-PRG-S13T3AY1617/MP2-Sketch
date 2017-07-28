@@ -1,0 +1,119 @@
+#navigation{
+    top: 30px;
+    position: relative;
+}
+
+#navigation nav a{
+    color: #666;
+}
+
+#navigation nav a:hover{
+    color: #fff;
+    background-color: #666;
+}
+
+#userHeader{
+    height: 70vh;
+    margin-top: 50px;
+    position: relative;
+    background: url("/img/landing-1.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+#userHeader #userInfo{
+    top: calc(100% - 125px);
+    position: absolute;
+    left: 50px;
+}
+
+#userHeader #userInfo div{
+    display: inline-block;
+    vertical-align: top;
+}
+
+#userHeader #userInfo #userPic{
+    border-radius: 100%;
+    display: inline-block;
+    background-color: #fff;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+    height: 250px;
+    width: 250px;
+    padding: 10px;
+}
+
+#userHeader #userInfo #userPic div{
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#userHeader #userInfo #userName{
+    top: calc(125px - 1.4em);
+    left: 25px;
+    font-weight: bold;
+    font-size: 2em;
+    color: #fff;
+    position: relative;
+}
+
+#userHeader #userInfo #userName .username{
+    color: #5a99dc;
+    display: block;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+#userDetails{
+    height: 150px;
+    border-bottom: 3px dotted #e2e2e2;
+    position: relative;
+}
+
+#userDetails #userInfo{
+    top: 35px;
+    left: 335px;
+    color: #666;
+    position: absolute;
+    font-size: 13px;
+}
+
+#userDetails #userInfo > ul{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 25px;
+}
+
+#userDetails #userInfo li{
+    margin: 5px;
+    list-style-type: none;
+}
+
+#userDetails #userInfo ul li b{
+    text-transform: uppercase;
+}
+
+#albumFeed #albumPosts #albumPost{
+    display: block;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+#albumFeed #albumPosts #albumPost .albumTitle{
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #227dcc;
+    cursor: pointer;
+    text-transform: capitalize;
+}
+
+#albumFeed #albumPosts #albumPost .albumPhoto{
+    display: inline-block;
+    margin: 15px;
+    cursor: pointer;
+}

@@ -1,0 +1,191 @@
+{% load static %}
+{% load filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Beginnings Marketplace - Homepage</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+    <div id="navigation">
+        <nav>
+            <a href="{% url 'index' %}#newsFeed" id="postsLink">Posts</a>
+            {% if logged %}
+                <a href="{% url 'sell' %}">Post An Item</a>
+                <a href="{% url 'profile' %}">View Profile</a>
+                <a href="{% url 'logout' %}">Log Out</a>
+            {% else %}
+                <a href="{% url 'login' %}">Log In</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </nav>
+    </div>
+    
+    <div id="landing">
+        {% for data in top %}
+            <div class='post'>
+                <div id='header'>
+                    <div id='img'>
+                        <img src='{{ data.picture.url }}' alt='{{ data.name }}'>
+                    </div>
+                </div>
+                <div id='content'>
+                    <div id='title'>
+                        <span class='post-title'> {{ data.name }} </span>
+                        <span class='post-user'>
+                            Owner: <a href='/account/?user={{ data.owner.pk }}'> {{ data.owner.pk|getUsername }} </a>
+                        </span>
+                    </div>
+                    <p id="description"><b>Description:</b> {{ data.description }}</p>
+                    <p id="use"><b>Use: </b> {{ data.use }}</p>
+                    <p id="course">
+                        {% if data.course != "N/A" %}
+                            <b>Course: </b>
+                            {{ data.course }}
+                        {% endif %}
+                    </p>
+                    <p id="quantity"><b>Quantity:</b> {{ data.quantity }} </p>
+                    <p id="tags">
+                        <b>Tags: </b><br/>
+                        {% for t in data.tags|split %}
+                            <a href="?tags={{ t }}" class="tag">{{ t }}</a>
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div id="newsFeed">
+        <div id="controls">
+            <form action="#newsFeed" id="search">
+                <div class="form-group">
+                    <label for="tags">Search For Tags: </label>
+                    {% if tags %}
+                        <input type="text" name="tags" placeholder="Seperate tags by spaces..." value="{{ tags }}">
+                    {% else %}
+                        <input type="text" name="tags" placeholder="Seperate tags by spaces...">
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Search By Type: </label>
+                    <select name="type" id="type">
+                        {% if type %}
+                            {% if type == "office" %}
+                                <option value="any">Any</option>
+                                <option value="office" selected>Office</option>
+                                <option value="academic">Academic</option>
+                            {% elif type == "academic" %}
+                                <option value="any">Any</option>
+                                <option value="office">Office</option>
+                                <option value="academic" selected>Academic</option>
+                            {% else %}
+                                <option value="any" selected>Any</option>
+                                <option value="office">Office</option>
+                                <option value="academic">Academic</option>
+                            {% endif %}
+                        {% else %}
+                            <option value="any" selected>Any</option>
+                            <option value="office">Office</option>
+                            <option value="academic">Academic</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="limit">Limit Posts By: </label>
+                    <select name="limit" id="limit">
+                        {% if limit %}
+                            {% if limit == "10" %}
+                                <option value=10 selected>10</option>
+                                <option value=15>15</option>
+                                <option value=20>20</option>
+                            {% elif limit == "15" %}
+                                <option value=10>10</option>
+                                <option value=15 selected>15</option>
+                                <option value=20>20</option>
+                            {% else %}
+                                <option value=10 selected>10</option>
+                                <option value=15>15</option>
+                                <option value=20>20</option>
+                            {% endif %}
+                        {% else %}
+                            <option value=10 selected>10</option>
+                            <option value=15>15</option>
+                            <option value=20>20</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Search">
+                    {% if page and maxPage and page < maxPage %}
+                        <button class="getNext" id="nextPage">View Next Posts</button>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+
+        <br/>
+        <div class="pageTitle"">Page {{ page }}/{{ maxPage }}</div>
+
+        <div id="content">
+            {% if db %}
+                {% for data in db %}
+                    <div class='post'>
+                        <div id='header'>
+                            <div id='img'>
+                                <img src='{{ data.picture.url }}' alt='{{ data.name }}'>
+                            </div>
+                        </div>
+                        <div id='content'>
+                            <div id='title'>
+                                <span class='post-title'> {{ data.name }} </span>
+                                <span class='post-user'>
+                                    Owner: <a href='/account/?user={{ data.owner.pk }}'> {{ data.owner.pk|getUsername }} </a>
+                                </span>
+                            </div>
+                            <p id="description"><b>Description:</b> {{ data.description }}</p>
+                            <p id="use"><b>Use: </b> <a href="?type={{ data.use }}" class="tag">{{ data.use }}</a></p>
+                            <p id="course">
+                                {% if data.course != "N/A" %}
+                                    <b>Course: </b>
+                                    {{ data.course }}
+                                {% endif %}
+                            </p>
+                            <p id="quantity"><b>Quantity:</b> {{ data.quantity }} </p>
+                            <p id="tags">
+                                <b>Tags: </b><br/>
+                                {% for t in data.tags|split %}
+                                    <a href="?tags={{ t }}" class="tag">{{ t }}</a>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center;">
+                    <h1>No Posts</h1>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {{ form.as_p }}
+</body>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/home.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        $("#nextPage").on('click', function(event){
+            event.preventDefault();
+            $("#search").append("<input type='hidden' name='page' value='{{ page|add:1 }}'/>");
+            $("#search").submit()
+        })
+    })
+</script>
+</html>

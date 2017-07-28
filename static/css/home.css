@@ -1,0 +1,85 @@
+#landing{
+    color: #fff;
+    height: 100vh;
+    background: url('/img/landing-1.png');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+#landing .post{
+    position: absolute;
+    top: calc(50% - 80px);
+    left: 105%;
+    transition: left 0.6s ease-in;
+}
+
+#landing .move{
+    left: calc(50% - 250px) !important;
+}
+
+#landing .post:before{
+    content: "RECENT POST:";
+    top: -2.3em;
+    left: -5px;
+    font-weight: bold;
+    position: absolute;
+    font-size: 1em;
+    color: #fff;
+    width: calc(100% - 3px);
+    padding: 10px 0px 10px 15px;
+    background-color: #333;
+    border-radius: 5px 5px 0 0;
+}
+
+#controls{
+    background-color: #2f2f2f;
+    border-bottom: 1px solid #1c1c1c;
+    width: 100%;
+    padding: 10px;
+    color: #ffffff;
+}
+
+#controls .form-group{
+    display: inline-block;
+}
+
+#controls .form-group:not(:first-child){
+    margin-left: 10px;
+}
+
+#controls input[type=text], #controls select{
+    margin-left: 5px;
+    outline: none;
+    padding: 5px;
+    width: 200px;
+    border-radius: 3px;
+    border: 1px solid #1c1c1c;
+}
+
+#controls input[type=submit], #controls button{
+    padding: 5px;
+    border: 1px solid #1967e5;
+    background-color: #227dcc;
+    border-radius: 3px;
+    color: #ffffff;
+    width: 85px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+#controls button{
+    width: auto;
+    background-color: #e56f63;
+    border: 1px solid #b85e50;
+}
+
+#controls input[type=submit]:hover{
+    background-color: #1967e5;
+}
+
+#controls button:hover{
+    background-color: #b85e50;
+}
