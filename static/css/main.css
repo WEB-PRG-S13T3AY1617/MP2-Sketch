@@ -80,8 +80,8 @@ a:hover{
 
 .post #header #img img{
     vertical-align: middle;
-    height: auto;
-    width: 150px;
+    max-width: 150px;
+    max-height: 200px;
 }
 
 .post #header #title span{
@@ -300,3 +300,9 @@ a:hover{
 .pageTitle{
     font-size:20px;
 }
+
+.offerPost{
+    padding: 10px;
+    border-bottom: 1px solid #e2e2e2;
+}
+

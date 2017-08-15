@@ -1,3 +1,5 @@
+from django.http import HttpResponseRedirect
+
 from account import views
 
 def index(request):
@@ -24,4 +26,5 @@ def login(request, response=None):
 def logout(request):
     if 'user' in request.session:
         request.session.flush()
-    return index(request)
+
+    return HttpResponseRedirect('/account/login/')

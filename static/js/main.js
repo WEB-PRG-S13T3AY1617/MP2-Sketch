@@ -26,6 +26,62 @@ $(document).ready(function () {
 
     $(".post img").on('click', function(event){
         window.open(this.src)
-    })
-    
+    });
+
+    $("#offers").on('click', '.acceptOffer',function(event){
+        event.preventDefault();
+        var obj = $(this);
+        $.ajax({
+            url: '/showItem/acceptOffer/',
+            method: 'GET',
+            data: {
+                offer: obj.data('offer')
+            }, success: function(data){
+                if(data.success === false){
+                    alert("Cannot accept this offer at the moment.");
+                }else{
+                    document.location.href = obj.href;
+                }
+            }
+        })
+    });
+
+    $("#offers").on('click', '.rejectOffer',function(event){
+        event.preventDefault();
+        var obj = $(this);
+        $.ajax({
+            url: '/showItem/rejectOffer/',
+            method: 'GET',
+            data: {
+                offer: obj.data('offer')
+            }, success: function(data){
+                if(data.success === false){
+                    alert("Cannot reject this offer at the moment.");
+                }else{
+                    document.location.href = obj.href;
+                }
+            }
+        })
+    });
+
+
+    $("#form_p").on('change', "#id_offerType", function (event){
+
+        var type = $("#id_offerType").val();
+        var post = $("#id_post").val();
+
+       $.ajax({
+           url: '/showItem/changeForm/',
+           method: 'GET',
+           data: {
+               post: post,
+               type: type
+           }, success: function(data){
+               console.log(data);
+               $("#form_p").empty();
+               $("#form_p").append(data);
+           }
+       })
+    });
+
 });

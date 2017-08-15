@@ -23,8 +23,26 @@ from . import accountView
 import account.views
 import post.views
 
+from django.contrib import admin
+from account.models import Account
+from post.models import Post, Offer
+
+# Register your models here.
+admin.site.register(Account)
+admin.site.register(Post)
+admin.site.register(Offer)
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
+    url(r'showItem/acceptOffer/', post.views.acceptOffer),
+    url(r'showItem/rejectOffer/', post.views.rejectOffer),
+    url(r'showItem/changeForm/', post.views.changeForm),
+    url(r'showItem/reject/', post.views.cancelOffer),
+    url(r'showItem/cancel/', post.views.cancelOffer),
+    url(r'showItem/offer/do/', post.views.offerItem),
+    url(r'makeOffer/', post.views.showItem),
+    url(r'showItem/', post.views.showItem),
 
     url(r'^post/sell/do/', post.views.postItem),
     url(r'^post/sell/', postView.sell, name='sell'),

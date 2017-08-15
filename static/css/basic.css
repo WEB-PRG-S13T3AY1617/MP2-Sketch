@@ -17,7 +17,7 @@
     position: relative;
 }
 
-#newsFeed #header{
+#newsFeed > #header, #newsFeed #itemInfo > #header, #newsFeed #itemOffers > #header{
     text-align: center;
     color: #fff;
     font-size: 2.5em;
@@ -34,4 +34,21 @@
     padding: 10px;
     cursor: pointer !important;
     position: relative;
+}
+
+#newsFeed #itemInfo, #newsFeed #itemOffers{
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+}
+
+#offerSort{
+    text-align: center;
+    padding: 3px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+#offerSort a{
+    margin-left: 10px;
 }
