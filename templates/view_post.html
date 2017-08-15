@@ -1,0 +1,137 @@
+{% load static %}
+{% load filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Beginnings Marketplace - {{ item.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/basic.css' %}">
+</head>
+<body>
+    <div id="navigation">
+        <nav>
+            <a href="{% url 'index' %}#newsFeed" id="postsLink">Posts</a>
+            <a href="{% url 'sell' %}">Post An Item</a>
+            <a href="{% url 'profile' %}">View Profile</a>
+            <a href="{% url 'logout' %}">Log Out</a>
+        </nav>
+    </div>
+
+    <div id="newsFeed">
+        <div id="itemInfo">
+            <div id="header">
+                Item Details
+            </div>
+            <div class='post'>
+                <div id='header'>
+                    <div id='img'>
+                        <img src='{{ item.picture.url }}' alt='{{ data.name }}'>
+                    </div>
+                </div>
+                <div id='content'>
+                    <div id='title'>
+                        <span class='post-title'> {{ item.name }} </span>
+                        <span class='post-user'>
+                            Owner: <a href='/account/?user={{ item.owner.pk }}'> {{ item.owner.pk|getUsername }} </a>
+                        </span>
+                    </div>
+                    <p id="description"><b>Description:</b> {{ item.description }}</p>
+                    <p id="use"><b>Use: </b> <a href="/?type={{ item.use }}" class="tag">{{ item.use }}</a></p>
+                    <p id="course">
+                        {% if item.course != "N/A" %}
+                            <b>Course: </b>
+                            {{ item.course }}
+                        {% endif %}
+                    </p>
+                    <p id="quantity"><b>Quantity:</b> {{ item.quantity }} </p>
+                    <p id="tags">
+                        <b>Tags: </b><br/>
+                        {% for t in item.tags|split %}
+                            <a href="/?tags={{ t }}" class="tag">{{ t }}</a>
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <div id="itemOffers">
+            <div id="header">
+                {% if item.owner.pk != user %}
+                    Offer Money/Item
+                {% else %}
+                    Item Offers
+                {% endif %}
+            </div>
+
+            {% if user and item.owner.pk == user %}
+                <div id="offers">
+                    <div id="offerSort">
+                        <b>Sort By: </b>
+                        <a href="/showItem/?post={{ item.pk }}&order=1">Recent Offers</a>
+                        <a href="/showItem/?post={{ item.pk }}&order=2">Offer Value</a>
+                    </div>
+
+                    {% if offers.count <= 0 %}
+                        <h1 style="text-align: center;">No Offers</h1>
+                    {% endif %}
+
+                    {% for offer in offers %}
+                        <div class="offerPost">
+                            <div class="offerType">
+                                <b>Offer Type: </b>
+                                {% if offer.offerType == "item" %}
+                                    Item
+                                {% else %}
+                                    Money
+                                {% endif %}
+                            </div>
+                            <div class="offeredBy">
+                                <b>Offered By:</b>
+                                <a href="/account/?user={{ offer.user.pk }}">{{ offer.user.name }}</a>
+                            </div>
+                            <div class="offer">
+                                {% if offer.offerType == "item" %}
+                                    <b>Post Name: </b> <a href="/showItem/?post={{ offer.item.pk }}">{{ offer.item.name }}</a>
+                                    <br>
+                                    <b>Post Price</b> Php. {{ offer.item.price }}
+                                {% else %}
+                                    <b>Amount: </b> Php. {{ offer.money }}
+                                {% endif %}
+                            </div>
+                            <div id="buttons">
+                                <a class="acceptOffer" target="_top" data-offer="{{ offer.pk }}" href="mailto:{{ offer.user.email }}?subject=Accepted Offer For: {{ offer.post.name }} by {{ offer.post.owner.name }}&from={{ offer.post.owner.email }}">Accept Offer</a>
+                                <a class="rejectOffer" target="_top" data-offer="{{ offer.pk }}" href="mailto:{{ offer.user.email }}?subject=Rejected Offer For: {{ offer.post.name }} by {{ offer.post.owner.name }}&from={{ offer.post.owner.email }}">Reject Offer</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if item.owner.pk != user %}
+                <div id="offers">
+                    <form action="/showItem/offer/do/" id="offerPostForm" method="POST" class="accountForm">
+                        <div class="title">Your Offer: </div>
+                        {% csrf_token %}
+                        <input type="hidden" name="post" id="id_post" value={{ item.pk }}>
+                        <div id="form_p">
+                            {{ form.as_p }}
+                        </div>
+                        <input type="submit" value="Offer">
+                        {% if errors %}
+                            <div class="errors">
+                                {% for error in errors %}
+                                    <div><b>Error:</b> {{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/home.js' %}"></script>
+</html>

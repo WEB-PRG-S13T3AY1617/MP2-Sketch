@@ -122,6 +122,9 @@
 
                 <div class="form-group">
                     <input type="submit" value="Search">
+                    {% if page and maxPage and page > 1 %}
+                        <button class="getNext" id="prevPage">View Previous Posts</button>
+                    {% endif %}
                     {% if page and maxPage and page < maxPage %}
                         <button class="getNext" id="nextPage">View Next Posts</button>
                     {% endif %}
@@ -130,7 +133,7 @@
         </div>
 
         <br/>
-        <div class="pageTitle"">Page {{ page }}/{{ maxPage }}</div>
+        <div class="pageTitle">Page {{ page }}/{{ maxPage }}</div>
 
         <div id="content">
             {% if db %}
@@ -157,6 +160,20 @@
                                 {% endif %}
                             </p>
                             <p id="quantity"><b>Quantity:</b> {{ data.quantity }} </p>
+                                {% if user  %}
+                                <p id="offers">
+
+                                    <b>Actions: </b>
+                                    {% if user and data.owner.pk == user.pk %}
+                                        <a href="/showItem/?post={{ data.pk }}">View Post Offers</a>
+                                    {% elif user and data.pk|hasOffer:user.pk %}
+                                        <a href="/showItem/?post={{ data.pk }}">Update Offer</a>,
+                                        <a href="/showItem/cancel/?post={{ data.pk }}">Cancel Offer</a>
+                                    {% else %}
+                                        <a href="/makeOffer/?post={{ data.pk }}">Make An Offer</a>
+                                    {% endif %}
+                                </p>
+                                {% endif %}
                             <p id="tags">
                                 <b>Tags: </b><br/>
                                 {% for t in data.tags|split %}
@@ -184,6 +201,12 @@
         $("#nextPage").on('click', function(event){
             event.preventDefault();
             $("#search").append("<input type='hidden' name='page' value='{{ page|add:1 }}'/>");
+            $("#search").submit()
+        })
+
+        $("#prevPage").on('click', function(event){
+            event.preventDefault();
+            $("#search").append("<input type='hidden' name='page' value='{{ page|add:-1 }}'/>");
             $("#search").submit()
         })
     })
