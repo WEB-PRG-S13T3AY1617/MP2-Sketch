@@ -12,7 +12,9 @@ class Account(models.Model):
     cell = models.CharField(max_length=20, default="+00 000 000 0000")
     type = models.CharField(max_length=7, default='student', choices=choices)
     picture = models.ImageField(upload_to="users/", default="default.jpg")
-
+    def __str__(self):
+        return self.name
+    
 class LoginForm(forms.ModelForm):
     class Meta:
         model = Account

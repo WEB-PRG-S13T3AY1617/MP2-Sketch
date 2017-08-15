@@ -1,5 +1,6 @@
 from django import template
 from account.models import Account
+from post.models import Post, Offer
 
 register = template.Library()
 
@@ -44,3 +45,22 @@ def getType(id):
 @register.filter
 def split(str):
     return str.split()
+
+@register.filter
+def getPostItemName(id1):
+    x = Post.objects.get(pk=id)
+    return x.item.name
+
+@register.filter
+def getOffers(id):
+    x = Offer.objects.filter(user__id=id)
+    return x
+
+@register.filter
+def hasOffer(pId, uId):
+    try:
+        x = Offer.objects.get(post__id=pId, user_id=uId)
+    except Offer.DoesNotExist:
+        return False
+
+    return True

@@ -1,5 +1,6 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .models import RegisterForm, Account, LoginForm
 from post.models import Post
@@ -41,7 +42,7 @@ def showProfile(request, id=None):
         page = int(page)
 
     db = db.order_by('-timeposted')
-    maxPage = db.count() // limit;
+    maxPage = db.count() // limit
 
     paginator = Paginator(db, limit)
 
@@ -88,7 +89,7 @@ def registerAccount(request):
 
                 if user.count() == 0:
                     form.save()
-                    return showLogin(request=request)
+                    return HttpResponseRedirect('/account/login/')
                 else:
                     return showRegister(request=request, response=dict(error={'Email Address is already in use.'}))
             else:
@@ -110,7 +111,7 @@ def loginAccount(request):
                                               password=form.cleaned_data['password'])
 
                 request.session['user'] = account.id
-                return showProfile(request)
+                return HttpResponseRedirect('/account/')
 
             except Account.DoesNotExist:
                 return showLogin(request=request, response=dict(error={'Invalid Username/Password.'}))
